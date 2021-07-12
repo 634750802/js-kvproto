@@ -1,0 +1,33 @@
+{
+  "name": "@jagpro/kvproto",
+  "version": "unstable",
+  "description": "Generated tikv protobuf for js users using protobufjs.",
+  "main": "lib/index.cjs",
+  "module": "lib/index.mjs",
+  "types": "lib/index.d.js",
+  "scripts": {
+    "clone:kvproto": "git clone https://github.com/pingcap/kvproto --depth=1",
+    "gen:proto": "rm -rf lib && mkdir lib && npm run gen:esm:proto && npm run gen:commonjs:proto",
+    "gen:esm:proto": "npm run gen:esm:proto.header && npm run gen:esm:proto.src && npm run gen:esm:proto.types && npm run gen:esm:proto.minify",
+    "gen:esm:proto.header": "echo 'import $protobuf from \"protobufjs/minimal.js\";' > lib/index.mjs",
+    "gen:esm:proto.src": "pbjs --es6 --keep-case -p kvproto/include --no-beautify -t static kvproto/proto/*pb.proto >> lib/index.mjs",
+    "gen:esm:proto.minify": "uglifyjs lib/index.mjs --no-rename -o lib/index.mjs",
+    "gen:esm:proto.types": "pbts -o lib/index.d.ts lib/index.mjs",
+    "gen:commonjs:proto": "npm run gen:commonjs:proto.header && npm run gen:commonjs:proto.src && npm run gen:commonjs:proto.footer && npm run gen:commonjs:proto.minify",
+    "gen:commonjs:proto.header": "echo 'const $protobuf = require(\"protobufjs/minimal.js\");' > lib/index.cjs",
+    "gen:commonjs:proto.src": "pbjs --wrap commonjs --keep-case -p kvproto/include --no-beautify -t static kvproto/proto/*pb.proto >> lib/index.cjs",
+    "gen:commonjs:proto.footer": "echo 'module.exports = $root;' >> lib/index.cjs",
+    "gen:commonjs:proto.minify": "uglifyjs lib/index.cjs --no-rename -o lib/index.cjs"
+  },
+  "author": "Jagger",
+  "license": "MIT",
+  "dependencies": {
+    "protobufjs": "^6.11.2"
+  },
+  "devDependencies": {
+    "uglify-js": "^3.13.10"
+  },
+  "files": [
+    "lib"
+  ]
+}
