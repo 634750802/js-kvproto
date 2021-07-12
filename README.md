@@ -5,7 +5,7 @@ Compiled [TiKV](https://tikv.org) protobuf lib, generated from [pingcap/kvproto]
 ## Installation
 
 ```shell
-npm i @jagpro/kvproto
+npm i js-kvproto
 ```
 
 ## Usage
@@ -16,7 +16,7 @@ See [protobufjs](https://github.com/protobufjs/protobuf.js)
 
 ```javascript
 const grpc = require('grpc')
-const { pdpb } = require('kvproto')
+const { pdpb } = require('js-kvproto')
 
 const Client = grpc.makeGenericClientConstructor({})
 const client = new Client(
